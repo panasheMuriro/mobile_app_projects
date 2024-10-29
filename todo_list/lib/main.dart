@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/AddTaskPage.dart';
+import 'package:todo_list/TaskDetailsPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,28 +30,45 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-// List to hold the to-do items
-
   final List<Map<String, dynamic>> _todoItems = [];
-  final TextEditingController _controller =
-      TextEditingController(); // Controller for input
 
-  void _addTodoItem() {
-    if (_controller.text.isNotEmpty) {
-      setState(() {
-        _todoItems.add({
-          'task': _controller.text,
-          'completed': false, // Initially, the task is not completed
-        });
+  void _addTodoItem(String title, String description) {
+    setState(() {
+      _todoItems.add({
+        'task': title,
+        'description': description,
+        'completed': false,
       });
-      _controller.clear(); // Clear the input field after adding
-    }
+    });
   }
 
   void _toggleTask(int index) {
     setState(() {
       _todoItems[index]['completed'] = !_todoItems[index]['completed'];
     });
+  }
+
+  void _navigateToAddTaskPage() async {
+    // Navigate to AddTaskPage and wait for result
+    final newTask = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const AddTaskPage(),
+      ),
+    );
+
+    if (newTask != null) {
+      _addTodoItem(newTask['title'], newTask['description']);
+    }
+  }
+
+  void _navigateToTaskDetailsPage(Map<String, dynamic> task) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TaskDetailsPage(task: task),
+      ),
+    );
   }
 
   @override
@@ -65,58 +84,37 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Expanded(
-                child: ListView.builder(
-                    itemCount: _todoItems.length,
-                    itemBuilder: (context, index) {
-                      final task = _todoItems[index];
-                      return ListTile(
-                        title: Text(
-                          task['task'],
-                          style: TextStyle(
-                            decoration: task['completed']
-                                ? TextDecoration.lineThrough
-                                : TextDecoration.none,
-                          ),
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(
-                            task['completed']
-                                ? Icons.check_box
-                                : Icons.check_box_outline_blank,
-                            color: task['completed'] ? Colors.green : null,
-                          ),
-                          onPressed: () =>
-                              _toggleTask(index), // Toggle completion state
-                        ),
-                      );
-                    })),
-            Padding(
-                padding: const EdgeInsets.all(16),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                        child: TextField(
-                        
-                      controller: _controller,
-                
-                      decoration:
-                          const InputDecoration(
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.all(Radius.circular(10))
-                            ),
-                            labelText: "Enter Task"),
-                    )),
-                    CircleAvatar(
-                        backgroundColor: Colors.green,
-                        child: IconButton(
-                          icon: const Icon(
-                            Icons.add,
-                            color: Colors.white,
-                          ),
-                          onPressed: _addTodoItem,
-                        ))
-                  ],
-                ))
+              child: ListView.builder(
+                itemCount: _todoItems.length,
+                itemBuilder: (context, index) {
+                  final task = _todoItems[index];
+                  return ListTile(
+                    title: Text(
+                      task['task'],
+                      style: TextStyle(
+                        decoration: task['completed']
+                            ? TextDecoration.lineThrough
+                            : TextDecoration.none,
+                      ),
+                    ),
+                    onTap: () => _navigateToTaskDetailsPage(task),
+                    trailing: IconButton(
+                      icon: Icon(
+                        task['completed']
+                            ? Icons.check_box
+                            : Icons.check_box_outline_blank,
+                        color: task['completed'] ? Colors.green : null,
+                      ),
+                      onPressed: () => _toggleTask(index),
+                    ),
+                  );
+                },
+              ),
+            ),
+            ElevatedButton(
+              onPressed: _navigateToAddTaskPage,
+              child: const Text('Add Task'),
+            ),
           ],
         ),
       ),
