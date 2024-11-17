@@ -1,8 +1,10 @@
 import 'package:api_weather_app/services/WeatherService.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await dotenv.load();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
