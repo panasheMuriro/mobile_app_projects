@@ -8,7 +8,7 @@ class CounterScreenProvider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title:Text("Counter Screen Provider")),
+      appBar: AppBar(title:const Text("Counter Screen Provider")),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -16,12 +16,12 @@ class CounterScreenProvider extends StatelessWidget {
             const Text("You pressed this button this many times"),
             Consumer<CounterProvider>(builder: (context, counterProvider, child){
               return Text('${counterProvider.counter}',
-              style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),);
+              style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),);
             }),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(onPressed: (){
               context.read<CounterProvider>().incrementCounter();
-            }, child: Text("increment"))
+            }, child: const Text("increment"))
 
           ],
         ),

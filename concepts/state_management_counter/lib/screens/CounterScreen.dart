@@ -30,7 +30,7 @@ class _CounterScreenState extends State<CounterScreen> {
           style: const TextStyle(
             fontSize: 40, fontWeight: FontWeight.bold
           ),),
-          ElevatedButton(onPressed: ()=> _incrementCounter(), child: Text("Add Count"))
+          ElevatedButton(onPressed: ()=> _incrementCounter(), child: const Text("Add Count"))
         ],
       ),),
     );

@@ -16,5 +16,5 @@ class TaskInitial extends TaskState {
 }
 
 class TaskLoaded extends TaskState {
-  const TaskLoaded(List<Map<String, dynamic>> tasks) : super(tasks);
+  const TaskLoaded(super.tasks);
 }

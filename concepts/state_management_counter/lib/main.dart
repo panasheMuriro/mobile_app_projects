@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:state_management_counter/providers/counter_provider.dart';
-import 'package:state_management_counter/screens/CounterScreen.dart';
 import 'package:state_management_counter/screens/CounterScreenProvider.dart';
 
 void main() {

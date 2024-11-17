@@ -6,7 +6,7 @@ part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
-  TaskBloc() : super(TaskInitial()) {
+  TaskBloc() : super(const TaskInitial()) {
     on<AddTask>(_onAddTask);
     on<ToggleTask>(_onToggleTask);
     on<LoadTasks>(_onLoadTasks);
@@ -31,7 +31,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       add(LoadTasks(tasks: loadedTasks));
     } else {
       // Emit initial empty task state if no tasks were found
-      emit(TaskLoaded([]));
+      emit(const TaskLoaded([]));
     }
   }
 
